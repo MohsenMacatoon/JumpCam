@@ -3,238 +3,199 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Measure your standing vertical jump from a video. AI pose detection runs on your phone.">
-  <meta name="theme-color" content="#13294B">
+  <meta name="description" content="A photo growth diary for your plant or pet.">
+  <meta name="theme-color" content="#2F7D4A">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="JumpCam">
-  <title>JumpCam</title>
+  <meta name="apple-mobile-web-app-title" content="Sprout &amp; Paw">
+  <title>Sprout &amp; Paw</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-512.png">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="none">
 
-  <!-- Icon set, used as <svg><use href="#i-name"/></svg> -->
+  <!-- Icons (used with <use href="#i-name">) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
+      <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c0-9 5.5-14.5 15-15.5C19 14 13.5 19.5 5 20z"/><path d="M5 20l8.5-8.5"/></symbol>
+      <symbol id="i-paw" viewBox="0 0 24 24" fill="currentColor"><circle cx="5.5" cy="10.5" r="2"/><circle cx="9.2" cy="6.2" r="2.1"/><circle cx="14.8" cy="6.2" r="2.1"/><circle cx="18.5" cy="10.5" r="2"/><path d="M12 11.5c-3.1 0-6.2 3.6-6.2 6.4 0 1.7 1.3 2.4 2.9 2.4 1.3 0 2.1-.6 3.3-.6s2 .6 3.3.6c1.6 0 2.9-.7 2.9-2.4 0-2.8-3.1-6.4-6.2-6.4z"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-8 9"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
       <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
-      <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
-      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></symbol>
-      <symbol id="i-gallery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-8 9"/></symbol>
-      <symbol id="i-guide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17.5h.01"/></symbol>
-      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></symbol>
-      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
-      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></symbol>
-      <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></symbol>
-      <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"/><path d="M18 6v12"/></symbol>
-      <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/><path d="M6 6v12"/></symbol>
-      <symbol id="i-peak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V5"/><path d="M6 11l6-6 6 6"/><path d="M5 3h14"/></symbol>
-      <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></symbol>
+      <symbol id="i-sort" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16l-3-3M8 20l3-3M16 20V4l-3 3M16 4l3 3"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     </defs>
   </svg>
 
-  <!-- Video used only for frame-by-frame analysis. Kept on the page (but invisible)
-       because some browsers stop decoding videos that aren't on screen. -->
-  <video id="workVideo" class="work-video" muted playsinline preload="auto" aria-hidden="true"></video>
-
-  <!-- ===== Welcome / height setup ===== -->
-  <section class="screen" id="screen-welcome" hidden>
-    <div class="welcome-hero">
-      <svg class="ruler-mark" viewBox="0 0 40 120" aria-hidden="true"><use href="#ruler"/></svg>
-      <div>
-        <h1 class="brand">JumpCam</h1>
-        <p class="lead">Measure your standing vertical jump from a video.</p>
-      </div>
-    </div>
-    <ol class="how-list">
-      <li>Record a side-view video of your jump, or pick one from your gallery.</li>
-      <li>AI finds your hips, knees, and feet in every frame.</li>
-      <li>Your height is used as a ruler to turn the hip rise into centimeters.</li>
-    </ol>
-    <p class="privacy"><svg class="icon"><use href="#i-lock"/></svg> Everything runs on your phone. Your video is never uploaded.</p>
-    <form class="card" id="heightForm" novalidate>
-      <h2 class="card-title">Your height</h2>
-      <div class="height-fields" id="heightFields"></div>
-      <p class="field-error" id="heightError" role="alert"></p>
-      <button class="btn btn-primary" type="submit" id="heightSave">Continue</button>
-    </form>
+  <!-- Screen 1: choose plant or animal -->
+  <section class="choose" id="chooseScreen" hidden>
+    <header class="choose-head">
+      <h1>Sprout &amp; Paw</h1>
+      <p>A photo growth diary. What are you watching grow?</p>
+    </header>
+    <button class="choice choice-plant" type="button" data-cat="plant">
+      <svg class="choice-art" aria-hidden="true"><use href="#i-leaf"/></svg>
+      <span class="choice-title">Plant</span>
+      <span class="choice-meta" id="meta-plant">Start a new diary</span>
+    </button>
+    <button class="choice choice-animal" type="button" data-cat="animal">
+      <svg class="choice-art" aria-hidden="true"><use href="#i-paw"/></svg>
+      <span class="choice-title">Animal</span>
+      <span class="choice-meta" id="meta-animal">Start a new diary</span>
+    </button>
   </section>
 
-  <!-- ===== Recording guide ===== -->
-  <section class="screen" id="screen-guide" hidden>
-    <header class="topbar">
-      <button class="icon-btn" type="button" data-back aria-label="Back"><svg class="icon"><use href="#i-back"/></svg></button>
-      <h1 class="topbar-title">How to record</h1>
-    </header>
-    <div id="guideContent"></div>
-    <button class="btn btn-primary guide-done" type="button" id="guideDone">Got it</button>
-  </section>
-
-  <!-- ===== Home ===== -->
-  <section class="screen" id="screen-home" hidden>
-    <header class="topbar">
-      <h1 class="brand brand-sm">JumpCam</h1>
-      <button class="icon-btn" type="button" id="openSettings" aria-label="Settings"><svg class="icon"><use href="#i-gear"/></svg></button>
-    </header>
-
-    <div class="best" id="homeBest" hidden>
-      <span class="best-label">Best jump</span>
-      <span class="best-value" id="homeBestValue"></span>
-      <span class="best-sub" id="homeBestSub"></span>
-    </div>
-
-    <div class="add-buttons">
-      <button class="btn btn-primary btn-big" type="button" id="recordBtn">
-        <svg class="icon"><use href="#i-video"/></svg> Record video
+  <!-- Screen 2: list of plants or pets -->
+  <section class="list" id="listScreen" hidden>
+    <header class="bar">
+      <button class="icon-btn" id="listBack" type="button" aria-label="Back to plant or animal">
+        <svg class="icon"><use href="#i-back"/></svg>
       </button>
-      <button class="btn btn-secondary btn-big" type="button" id="galleryBtn">
-        <svg class="icon"><use href="#i-gallery"/></svg> Choose from gallery
+      <h1 class="bar-heading">
+        <svg class="icon bar-mark"><use id="listIcon" href="#i-leaf"/></svg>
+        <span id="listTitle">Your plants</span>
+      </h1>
+    </header>
+
+    <div class="diary-list" id="diaryList"></div>
+
+    <div class="empty" id="listEmpty" hidden>
+      <svg class="empty-art" aria-hidden="true"><use id="listEmptyIcon" href="#i-leaf"/></svg>
+      <p class="empty-title" id="listEmptyTitle">No plants yet</p>
+      <p>Add one to start its growth diary. You can add as many as you like.</p>
+    </div>
+
+    <button class="fab" id="newDiaryBtn" type="button">
+      <svg class="icon"><use href="#i-plus"/></svg>
+      <span id="newDiaryLabel">Add a plant</span>
+    </button>
+  </section>
+
+  <!-- Screen 3: one diary -->
+  <section class="diary" id="diaryScreen" hidden>
+    <header class="bar">
+      <button class="icon-btn" id="switchBtn" type="button" aria-label="Back to the list">
+        <svg class="icon"><use href="#i-back"/></svg>
       </button>
-    </div>
-    <p class="hint">Slow-motion videos from your camera app give the best accuracy.</p>
-
-    <div class="link-row">
-      <button class="link-btn" type="button" id="openGuide"><svg class="icon"><use href="#i-guide"/></svg> How to record</button>
-      <button class="link-btn" type="button" id="openHistory"><svg class="icon"><use href="#i-chart"/></svg> History</button>
-    </div>
-
-    <p class="privacy"><svg class="icon"><use href="#i-lock"/></svg> Your video stays on your phone. Nothing is uploaded.</p>
-    <p class="model-status" id="modelStatus"></p>
-
-    <input type="file" id="recordInput" accept="video/*" capture="environment" hidden>
-    <input type="file" id="galleryInput" accept="video/*" hidden>
-  </section>
-
-  <!-- ===== Analyzing ===== -->
-  <section class="screen screen-center" id="screen-analyzing" hidden>
-    <div class="analyzing">
-      <svg class="analyzing-art" viewBox="0 0 40 120" aria-hidden="true"><use href="#ruler"/></svg>
-      <h1 class="analyzing-title" id="analyzeTitle">Analyzing your jump</h1>
-      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <p class="progress-pct" id="progressPct">0%</p>
-      <p class="progress-detail" id="progressDetail">Getting ready…</p>
-      <button class="btn btn-secondary" type="button" id="cancelBtn">Cancel</button>
-    </div>
-  </section>
-
-  <!-- ===== Results ===== -->
-  <section class="screen" id="screen-results" hidden>
-    <header class="topbar">
-      <button class="icon-btn" type="button" id="resultsBack" aria-label="Back to home"><svg class="icon"><use href="#i-back"/></svg></button>
-      <h1 class="topbar-title">Result</h1>
+      <button class="bar-title" id="titleBtn" type="button" aria-label="Rename this diary">
+        <svg class="icon bar-mark"><use id="titleIcon" href="#i-leaf"/></svg>
+        <span id="diaryTitle">My plant</span>
+        <svg class="icon icon-sm"><use href="#i-edit"/></svg>
+      </button>
+      <button class="sort-btn" id="sortBtn" type="button">
+        <svg class="icon icon-sm"><use href="#i-sort"/></svg>
+        <span id="sortLabel">Newest</span>
+      </button>
     </header>
 
-    <!-- Error state -->
-    <div class="card error-card" id="resultError" hidden>
-      <h2 class="card-title" id="errorTitle">We couldn't measure this jump</h2>
-      <p id="errorText"></p>
-      <div class="btn-row">
-        <button class="btn btn-primary" type="button" id="errorGuide">See how to record</button>
-        <button class="btn btn-secondary" type="button" id="errorRetry">Try another video</button>
-      </div>
+    <p class="summary" id="summary"></p>
+    <div class="timeline" id="timeline"></div>
+
+    <div class="empty" id="emptyState" hidden>
+      <svg class="empty-art" aria-hidden="true"><use id="emptyIcon" href="#i-leaf"/></svg>
+      <p class="empty-title">Day 1 starts with a photo</p>
+      <p>Take or choose a photo. Today's date is added for you, and you can change it.</p>
     </div>
 
-    <!-- Success state -->
-    <div id="resultOk" hidden>
-      <div class="result-hero">
-        <svg class="meter" id="meter" viewBox="0 0 60 200" aria-hidden="true"></svg>
-        <div class="result-numbers">
-          <p class="result-cm"><span id="resCm">0</span><small>cm</small></p>
-          <p class="result-in" id="resIn"></p>
-          <span class="badge" id="resBadge">High confidence</span>
-        </div>
-      </div>
+    <button class="delete-diary" id="deleteDiaryBtn" type="button">Delete this diary</button>
 
-      <ul class="warnings" id="resWarnings"></ul>
-
-      <div class="player">
-        <div class="player-stage" id="playerStage">
-          <video id="replayVideo" playsinline muted preload="auto"></video>
-          <canvas id="overlay"></canvas>
-        </div>
-        <div class="player-controls">
-          <button class="icon-btn" type="button" id="stepBack" aria-label="Previous frame"><svg class="icon"><use href="#i-prev"/></svg></button>
-          <button class="icon-btn icon-btn-main" type="button" id="playToggle" aria-label="Play"><svg class="icon"><use id="playIcon" href="#i-play"/></svg></button>
-          <button class="icon-btn" type="button" id="stepFwd" aria-label="Next frame"><svg class="icon"><use href="#i-next"/></svg></button>
-          <button class="chip-btn" type="button" id="toPeak"><svg class="icon"><use href="#i-peak"/></svg> Peak</button>
-        </div>
-      </div>
-
-      <dl class="details" id="resDetails"></dl>
-
-      <div class="card debug-card" id="debugCard" hidden>
-        <h2 class="card-title">Debug: heights over time</h2>
-        <div id="debugGraph"></div>
-        <p class="debug-legend"><span class="lg lg-hip"></span>Hip rise <span class="lg lg-toe"></span>Toe height. Lines: takeoff, peak, landing.</p>
-        <pre class="debug-text" id="debugText"></pre>
-      </div>
-
-      <div class="btn-col">
-        <button class="btn btn-primary" type="button" id="saveBtn">Save to history</button>
-        <div class="btn-row">
-          <button class="btn btn-secondary" type="button" id="retryBtn">Try again</button>
-          <button class="btn btn-secondary" type="button" id="shareBtn">Share result</button>
-        </div>
-      </div>
-      <p class="note">Estimate. Accuracy is about plus or minus 2-3 cm with a steady camera and good form.</p>
-    </div>
+    <button class="fab" id="addBtn" type="button">
+      <svg class="icon"><use href="#i-camera"/></svg>
+      Add photo
+    </button>
   </section>
 
-  <!-- ===== History ===== -->
-  <section class="screen" id="screen-history" hidden>
-    <header class="topbar">
-      <button class="icon-btn" type="button" data-back aria-label="Back"><svg class="icon"><use href="#i-back"/></svg></button>
-      <h1 class="topbar-title">History</h1>
-    </header>
-    <div class="card chart-card" id="historyChartCard" hidden>
-      <h2 class="card-title">Progress</h2>
-      <div id="historyChart"></div>
+  <!-- Photo source picker -->
+  <div class="overlay" id="pickSheet" hidden>
+    <div class="sheet sheet-pick" role="dialog" aria-modal="true" aria-label="Add a photo">
+      <button class="pick-btn" id="pickCamera" type="button">
+        <svg class="icon"><use href="#i-camera"/></svg> Take photo
+      </button>
+      <button class="pick-btn" id="pickGallery" type="button">
+        <svg class="icon"><use href="#i-image"/></svg> Choose from gallery
+      </button>
+      <button class="pick-cancel" id="pickCancel" type="button">Cancel</button>
     </div>
-    <ul class="history-list" id="historyList"></ul>
-    <p class="empty" id="historyEmpty">No saved jumps yet. Measure a jump and tap Save to history.</p>
-    <button class="btn btn-danger-text" type="button" id="clearHistory" hidden>Clear all history</button>
-  </section>
+  </div>
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+  <input type="file" id="galleryInput" accept="image/*" multiple hidden>
 
-  <!-- ===== Settings ===== -->
-  <section class="screen" id="screen-settings" hidden>
-    <header class="topbar">
-      <button class="icon-btn" type="button" data-back aria-label="Back"><svg class="icon"><use href="#i-back"/></svg></button>
-      <h1 class="topbar-title">Settings</h1>
-    </header>
-    <form class="card" id="settingsHeightForm" novalidate>
-      <h2 class="card-title">Your height</h2>
-      <div class="height-fields" id="settingsHeightFields"></div>
-      <p class="field-error" id="settingsHeightError" role="alert"></p>
-      <button class="btn btn-primary" type="submit">Save height</button>
-    </form>
-    <div class="card">
-      <label class="toggle">
-        <span>
-          <span class="toggle-title">Debug mode</span>
-          <span class="toggle-sub">Shows hip and toe graphs with takeoff, peak, and landing marked.</span>
-        </span>
-        <input type="checkbox" id="debugToggle">
+  <!-- Add / edit a day -->
+  <div class="overlay" id="entrySheet" hidden>
+    <form class="sheet" id="entryForm" role="dialog" aria-modal="true" aria-labelledby="entryTitle" novalidate>
+      <div class="sheet-head">
+        <h2 id="entryTitle">New photos</h2>
+        <button class="icon-btn" id="entryClose" type="button" aria-label="Close">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Date</span>
+        <input type="date" id="entryDate" required>
       </label>
+      <p class="field-hint" id="dateHint"></p>
+
+      <div class="field">
+        <span class="field-label">Photos <span class="slot-count" id="slotCount">0 of 3</span></span>
+        <div class="slots" id="slots"></div>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Description</span>
+        <textarea id="entryNote" rows="3" maxlength="1000"></textarea>
+      </label>
+
+      <p class="sheet-error" id="entryError" role="alert"></p>
+
+      <div class="sheet-actions">
+        <button class="btn-danger" id="entryDelete" type="button" hidden>Delete day</button>
+        <button class="btn-primary" id="entrySave" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Full-screen photo viewer -->
+  <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="viewer-close icon-btn" id="viewerClose" type="button" aria-label="Close photo">
+      <svg class="icon"><use href="#i-close"/></svg>
+    </button>
+    <img id="viewerImg" alt="">
+    <button class="viewer-nav viewer-prev icon-btn" id="viewerPrev" type="button" aria-label="Previous photo">
+      <svg class="icon"><use href="#i-back"/></svg>
+    </button>
+    <button class="viewer-nav viewer-next icon-btn" id="viewerNext" type="button" aria-label="Next photo">
+      <svg class="icon"><use href="#i-next"/></svg>
+    </button>
+    <div class="viewer-cap">
+      <p class="viewer-date"><span id="viewerDate"></span><span id="viewerCount"></span></p>
+      <p class="viewer-note" id="viewerNote"></p>
     </div>
-    <p class="privacy"><svg class="icon"><use href="#i-lock"/></svg> All processing happens on this phone. Videos are never uploaded. Saved jumps stay in this browser.</p>
-  </section>
+  </div>
+
+  <!-- In-app pop-up for naming and confirming (replaces the browser's own,
+       which always shows the website address) -->
+  <div class="overlay overlay-center" id="dialog" hidden>
+    <form class="dialog" id="dialogForm" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" novalidate>
+      <h2 class="dialog-title" id="dialogTitle"></h2>
+      <p class="dialog-text" id="dialogText"></p>
+      <input class="dialog-input" type="text" id="dialogInput" maxlength="40" autocomplete="off" aria-labelledby="dialogTitle">
+      <div class="dialog-actions">
+        <button class="btn-ghost" type="button" id="dialogCancel">Cancel</button>
+        <button class="btn-primary" type="submit" id="dialogOk">OK</button>
+      </div>
+    </form>
+  </div>
 
   <div class="toast" id="toast" role="status" hidden></div>
 
-  <!-- Ruler graphic reused on several screens -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <g id="ruler">
-        <rect x="2" y="2" width="36" height="116" rx="6" fill="currentColor" opacity=".14"/>
-        <path d="M2 14h14M2 26h22M2 38h14M2 50h22M2 62h14M2 74h22M2 86h14M2 98h22M2 110h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-      </g>
-    </defs>
-  </svg>
-
-  <script type="module" src="app.js"></script>
+  <script src="db.js"></script>
+  <script src="photo.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

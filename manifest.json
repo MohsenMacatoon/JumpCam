@@ -1,13 +1,13 @@
 {
-  "name": "JumpCam",
-  "short_name": "JumpCam",
-  "description": "Measure your standing vertical jump from a video. AI pose detection runs on your phone.",
+  "name": "Sprout & Paw",
+  "short_name": "Sprout&Paw",
+  "description": "A photo growth diary for your plant or pet.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F4F6FA",
-  "theme_color": "#13294B",
+  "background_color": "#EEF5E9",
+  "theme_color": "#2F7D4A",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
